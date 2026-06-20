@@ -1,5 +1,6 @@
 import { IProduct } from '@/types/globalTypes';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface ICart {
   products: IProduct[];
@@ -17,14 +18,31 @@ const cartSlice = createSlice({
         (product) => product._id === action.payload._id
       );
       if (existing) {
-        console.log('Test');
+        existing.quantity = existing.quantity! + 1;
       } else {
-        state.products.push(action.payload);
+        state.products.push({ ...action.payload, quantity: 1 });
       }
+    },
+    removeOne: (state, action: PayloadAction<IProduct>) => {
+      const existing = state.products.find(
+        (product) => product._id === action.payload._id
+      );
+      if (existing && existing.quantity! > 1) {
+        existing.quantity = existing.quantity! - 1;
+      } else {
+        state.products = state.products.filter(
+          (product) => product._id !== action.payload._id
+        );
+      }
+    },
+    removeFromCart: (state, action: PayloadAction<IProduct>) => {
+      state.products = state.products.filter(
+        (product) => product._id !== action.payload._id
+      );
     },
   },
 });
 
 export default cartSlice.reducer;
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeOne, removeFromCart } = cartSlice.actions;
