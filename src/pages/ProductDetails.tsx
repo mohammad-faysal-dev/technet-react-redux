@@ -1,8 +1,8 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
 import { useSingleProductsQuery } from '@/redux/api/apiSlice';
-import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
+import { Key, ReactElement, JSXElementConstructor, ReactFragment } from 'react';
+
 import { useParams } from 'react-router-dom';
 
 export default function ProductDetails() {
@@ -20,7 +20,7 @@ export default function ProductDetails() {
           <h1 className="text-3xl font-semibold">{product?.name}</h1>
           <p className="text-xl">Rating: {product?.rating}</p>
           <ul className="space-y-1 text-lg">
-            {product?.features?.map((feature) => (
+            {product?.features?.map((feature: boolean | Key | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | null | undefined) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
