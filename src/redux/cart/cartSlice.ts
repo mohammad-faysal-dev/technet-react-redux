@@ -8,7 +8,7 @@ interface ICart {
 }
 const initialState: ICart = {
   products: [],
-  total: 0,
+  total  : 0,
 };
 
 const cartSlice = createSlice({
@@ -25,7 +25,7 @@ const cartSlice = createSlice({
         state.products.push({ ...action.payload, quantity: 1 });
       }
       state.total += action.payload.price;
-    },
+    }, 
     removeOne: (state, action: PayloadAction<IProduct>) => {
       const existing = state.products.find(
         (product) => product._id === action.payload._id
